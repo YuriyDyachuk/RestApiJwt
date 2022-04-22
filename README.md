@@ -101,9 +101,18 @@ permissions and project generation commands
     php artisan route:clear
     php artisan config:clear
     php artisan cache:clear
-
+    
+    
 NEXT STEPS - OPENING LOCAL SITES IN BROWSER:
 
 ## Command First [default] page project
     https://localhost:3003 - default page
+
+## Command Swagger RESTfull API
     http://localhost:3002 - RESTAPI Swagger Documentation
+
+## LOGIN SWAGGER
+    admin
+## PASSWORD SWAGGER
+    123456
+    
