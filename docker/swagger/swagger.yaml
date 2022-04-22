@@ -20,14 +20,14 @@ paths:
           application/json:
             schema:
               properties:
-                name:
+                email:
                   type: string
-                  default: Max
+                  default: test@example.com
                 password:
                   type: string
                   default: password
               required:
-                - name
+                - email
                 - password
       responses:
         200:
@@ -72,33 +72,18 @@ paths:
                   data:
                     $ref: '#/components/schemas/Register'
 
-
-  /episodes:
+  /logout:
     get:
       tags:
-        - Episodes
-      summary: 'Get episodes'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Episodes'
-
-  /episodes/{episodeId}:
-    get:
-      tags:
-        - Episodes
-      summary: 'Get episode by Id'
+        - Auth
+      summary: 'User logout'
       parameters:
-        - name: episodeId
-          in: path
+        - in: query
+          name: token
+          schema:
+            type: string
           required: true
-          schema:
-            type: integer
+          description: 'Token for logout user in services'
       responses:
         200:
           description: ''
@@ -107,105 +92,24 @@ paths:
               schema:
                 properties:
                   data:
-                    $ref: '#/components/schemas/EpisodeShow'
-
-  /characters:
-    get:
-      tags:
-        - Characters
-      summary: 'Get characters'
-      parameters:
-        - in: query
-          name: name
-          schema:
-            type: string
-          required: false
-          description: 'Search by name or characters'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Characters'
-
-  /characters/random:
-    get:
-      tags:
-        - Characters
-      summary: 'Show is character random'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/CharacterShowRandom'
-
-
-  /quotes:
-    get:
-      tags:
-        - Quotes
-      summary: 'Get quotes'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Quotes'
-
-  /quotes/random:
-    get:
-      tags:
-        - Quotes
-      summary: 'Show is quotes random'
-      parameters:
-        - in: query
-          name: author
-          schema:
-            type: string
-          required: false
-          description: 'Search by name or characters'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/QuotesShow'
-
-
+                    $ref: '#/components/schemas/Logout'
 
 # COMPONENTS #
 
 components:
   schemas:
 
-
     # AUTH COMPONENTS #
-
 
     Login:
       type: object
       properties:
-        type:
+        status:
+          type: boolean
+          example: true
+        token:
           type: string
-          example: Bearer
-        value:
-          type: string
-          example: Bearer 6|vIymXOFGXo27pvl9mpYUptLAmEEakyb8FqzFeAzY
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYWxob3N0OjMwMDNcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2NTA2MzA4NzcsImV4cCI6MTY1MDYzNDQ3NywibmJmIjoxNjUwNjMwODc3LCJqdGkiOiJmQ2JmcFhYRE52MnBoMTBmIiwic3ViIjo4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.vaPOAkmp9WwhzrFv2PQGvLZleYtuVlskEuN7oSfQzk4
 
     Register:
       type: object
@@ -220,240 +124,16 @@ components:
           type: string
           example: aklein@example.com
 
-
-
-    # Service components #
-
-
-    Episodes:
+    Logout:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 8
-              title:
-                type: string
-                example: Felipe Prosacco
-              air_date:
-                type: string
-                example: 22/03/2021
-              characters:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    default: 12
-                  name:
-                    type: string
-                    example: Prof. Regan VonRueden
-                  birthday:
-                    type: string
-                    example: 1992-10-05
-                  nickname:
-                    type: string
-                    example: Odit dolore quo rerum vel nihil.
-                  portrayed:
-                    type: string
-                    example: Verona Beier V
-                  occupations:
-                    type: string
-                    example: Chemical Plant Operator
-                  episodeId:
-                    type: array
-                    default: [12,55,20]
-                  quoteId:
-                    type: array
-                    default: [1,2,3]
-        links:
-          type: array
-          items:
-            type: object
-            properties:
-              total:
-                type: integer
-                example: 10
-              lastPage:
-                type: integer
-                example: 2
-              perPage:
-                type: integer
-                example: 10
-              currentPage:
-                type: integer
-                example: 1
-
-
-    EpisodeShow:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 8
-        title:
+        status:
+          type: boolean
+          example: true
+        message:
           type: string
-          example: Felipe Prosacco
-        air_date:
-          type: string
-          example: 22/03/2021
-        characters:
-          type: object
-          properties:
-            id:
-              type: integer
-              default: 12
-            name:
-              type: string
-              example: Prof. Regan VonRueden
-            birthday:
-              type: string
-              example: 1992-10-05
-            nickname:
-              type: string
-              example: Odit dolore quo rerum vel nihil.
-            portrayed:
-              type: string
-              example: Verona Beier V
-            occupations:
-              type: string
-              example: Chemical Plant Operator
-            episodeId:
-              type: array
-              default: [ 12,55,20 ]
-            quoteId:
-              type: array
-              default: [ 1,2,3 ]
+          example: User has been logged out
 
-
-    Characters:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                default: 12
-              name:
-                type: string
-                example: Prof. Regan VonRueden
-              birthday:
-                type: string
-                example: 1992-10-05
-              nickname:
-                type: string
-                example: Odit dolore quo rerum vel nihil.
-              portrayed:
-                type: string
-                example: Verona Beier V
-              occupations:
-                type: string
-                example: Chemical Plant Operator
-              episodeId:
-                type: array
-                default: [ 12,55,20 ]
-              quoteId:
-                type: array
-                default: [ 1,2,3 ]
-        links:
-          type: array
-          items:
-            type: object
-            properties:
-              total:
-                type: integer
-                example: 10
-              lastPage:
-                type: integer
-                example: 2
-              perPage:
-                type: integer
-                example: 10
-              currentPage:
-                type: integer
-                example: 1
-
-    CharacterShowRandom:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                default: 12
-              name:
-                type: string
-                example: Prof. Regan VonRueden
-              birthday:
-                type: string
-                example: 1992-10-05
-              nickname:
-                type: string
-                example: Odit dolore quo rerum vel nihil.
-              portrayed:
-                type: string
-                example: Verona Beier V
-              occupations:
-                type: string
-                example: Chemical Plant Operator
-              episodeId:
-                type: array
-                default: [ 12,55,20 ]
-              quoteId:
-                type: array
-                default: [ 1,2,3 ]
-
-    Quotes:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 1
-              quote:
-                type: number
-                example: Jon Max Desc
-        links:
-          type: array
-          items:
-            type: object
-            properties:
-              total:
-                type: integer
-                example: 10
-              lastPage:
-                type: integer
-                example: 2
-              perPage:
-                type: integer
-                example: 10
-              currentPage:
-                type: integer
-                example: 1
-
-    QuotesShow:
-      type: object
-      properties:
-        id:
-          type: number
-          default: 12
-          description: ID contact
-        quote:
-          type: string
-          default: Jony Brad Desc
 
   securitySchemes:
     bearerAuth:

@@ -1,64 +1,109 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## ABOUT DOCUMENTATION FOR [RestApiJWT]()
 
-## About Laravel
+---------------------------
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+##FIRST STEPS
+* Uninstall old versions
+* Older versions of Docker were called docker, docker.io, or docker-engine. If these are installed, uninstall them:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Command
+    sudo apt-get remove docker docker-engine docker.io containerd runc
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Install Docker Engine
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
+    sudo apt update
 
-## Learning Laravel
+    sudo apt-get install docker-ce docker-ce-cli containerd.io
+    sudo service docker start
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Install Docker Compose
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Command
+    cp .env.example .env
 
-## Laravel Sponsors
+##NEXT STEP
+These packages are required for the make and composer commands
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    sudo apt-get install php7.4-gd
+    sudo apt-get install php7.4-curl
 
-### Premium Partners
+##NEXT STEPS
+Install make Unix and make commands for Docker
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    sudo apt update
+    sudo apt install make
 
-## Contributing
+- Install Windows
+- Download "Complete package, except sources" at (http://gnuwin32.sourceforge.net/downlinks/make.php) this will download:
+- execute make-3.81.exe by double clicking on the file
+- In the install wizard it will show the install path, which by default is:
+- Add the path to the binaries to the windows path variable. This will be the install path + "\bin". I did this from a windows command shell with:
+- set PATH=%PATH%;"C:\Program Files (x86)\GnuWin32\bin"
+- Confirm addition of path with command:
+- echo %PATH%
+- make -v
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##And next
 
-## Code of Conduct
+    make build
+    make start
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+##NEXT STEPS
+required project structure for correct composer install command
 
-## Security Vulnerabilities
+    mkdir -p storage/framework/{sessions,views,cache/data}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+##NEXT STEPS
+composer installation
 
-## License
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    HASH="$(wget -q -O - https://composer.github.io/installer.sig)"
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    sudo php composer-setup.php --install-dir=/usr/bin --filename=composer
+    
+    composer --version
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##NEXT STEPS
+all the needed clear commands
+
+    php artisan cache:clear
+
+    php artisan config:clear
+    
+    php artisan view:clear
+    
+    php artisan optimize:clear
+
+##NEXT STEP
+permissions and project generation commands
+
+    sudo chmod -R 777 ./
+
+    make artisan-command CMD=key:generate
+
+    make artisan-command CMD=storage:link
+
+    make artisan-command CMD=migrate
+
+    make artisan-command CMD=db:seed
+
+## Generation APP_KEY hash command
+    make artisan-command CMD=key:generate
+
+## Clear cache all
+    php artisan route:clear
+    php artisan config:clear
+    php artisan cache:clear
+
+NEXT STEPS - OPENING LOCAL SITES IN BROWSER:
+
+## Command First [default] page project
+    https://localhost:3003 - default page
+    http://localhost:3002 - RESTAPI Swagger Documentation
