@@ -1,0 +1,464 @@
+openapi: 3.0.3
+info:
+  title: REST API for restApiJWT
+  description: This is the REST API endpoints definition for restApiJWT project
+  version: 0.1.0
+  contact:
+    email: yuriydyachuk91@gmail.com
+servers:
+  - url: 'https://localhost:3003/api'
+    description: Local server
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: 'User login'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  default: Max
+                password:
+                  type: string
+                  default: password
+              required:
+                - name
+                - password
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Login'
+
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: 'User Registration'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  default: Ivan
+                email:
+                  type: string
+                  default: ivan@example.com
+                password:
+                  type: string
+                  default: password
+              required:
+                - name
+                - email
+                - password
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Register'
+
+
+  /episodes:
+    get:
+      tags:
+        - Episodes
+      summary: 'Get episodes'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Episodes'
+
+  /episodes/{episodeId}:
+    get:
+      tags:
+        - Episodes
+      summary: 'Get episode by Id'
+      parameters:
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EpisodeShow'
+
+  /characters:
+    get:
+      tags:
+        - Characters
+      summary: 'Get characters'
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+          description: 'Search by name or characters'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Characters'
+
+  /characters/random:
+    get:
+      tags:
+        - Characters
+      summary: 'Show is character random'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CharacterShowRandom'
+
+
+  /quotes:
+    get:
+      tags:
+        - Quotes
+      summary: 'Get quotes'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Quotes'
+
+  /quotes/random:
+    get:
+      tags:
+        - Quotes
+      summary: 'Show is quotes random'
+      parameters:
+        - in: query
+          name: author
+          schema:
+            type: string
+          required: false
+          description: 'Search by name or characters'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/QuotesShow'
+
+
+
+# COMPONENTS #
+
+components:
+  schemas:
+
+
+    # AUTH COMPONENTS #
+
+
+    Login:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Bearer
+        value:
+          type: string
+          example: Bearer 6|vIymXOFGXo27pvl9mpYUptLAmEEakyb8FqzFeAzY
+
+    Register:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 8
+        name:
+          type: string
+          example: Felipe Prosacco
+        email:
+          type: string
+          example: aklein@example.com
+
+
+
+    # Service components #
+
+
+    Episodes:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 8
+              title:
+                type: string
+                example: Felipe Prosacco
+              air_date:
+                type: string
+                example: 22/03/2021
+              characters:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    default: 12
+                  name:
+                    type: string
+                    example: Prof. Regan VonRueden
+                  birthday:
+                    type: string
+                    example: 1992-10-05
+                  nickname:
+                    type: string
+                    example: Odit dolore quo rerum vel nihil.
+                  portrayed:
+                    type: string
+                    example: Verona Beier V
+                  occupations:
+                    type: string
+                    example: Chemical Plant Operator
+                  episodeId:
+                    type: array
+                    default: [12,55,20]
+                  quoteId:
+                    type: array
+                    default: [1,2,3]
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              total:
+                type: integer
+                example: 10
+              lastPage:
+                type: integer
+                example: 2
+              perPage:
+                type: integer
+                example: 10
+              currentPage:
+                type: integer
+                example: 1
+
+
+    EpisodeShow:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 8
+        title:
+          type: string
+          example: Felipe Prosacco
+        air_date:
+          type: string
+          example: 22/03/2021
+        characters:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 12
+            name:
+              type: string
+              example: Prof. Regan VonRueden
+            birthday:
+              type: string
+              example: 1992-10-05
+            nickname:
+              type: string
+              example: Odit dolore quo rerum vel nihil.
+            portrayed:
+              type: string
+              example: Verona Beier V
+            occupations:
+              type: string
+              example: Chemical Plant Operator
+            episodeId:
+              type: array
+              default: [ 12,55,20 ]
+            quoteId:
+              type: array
+              default: [ 1,2,3 ]
+
+
+    Characters:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                default: 12
+              name:
+                type: string
+                example: Prof. Regan VonRueden
+              birthday:
+                type: string
+                example: 1992-10-05
+              nickname:
+                type: string
+                example: Odit dolore quo rerum vel nihil.
+              portrayed:
+                type: string
+                example: Verona Beier V
+              occupations:
+                type: string
+                example: Chemical Plant Operator
+              episodeId:
+                type: array
+                default: [ 12,55,20 ]
+              quoteId:
+                type: array
+                default: [ 1,2,3 ]
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              total:
+                type: integer
+                example: 10
+              lastPage:
+                type: integer
+                example: 2
+              perPage:
+                type: integer
+                example: 10
+              currentPage:
+                type: integer
+                example: 1
+
+    CharacterShowRandom:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                default: 12
+              name:
+                type: string
+                example: Prof. Regan VonRueden
+              birthday:
+                type: string
+                example: 1992-10-05
+              nickname:
+                type: string
+                example: Odit dolore quo rerum vel nihil.
+              portrayed:
+                type: string
+                example: Verona Beier V
+              occupations:
+                type: string
+                example: Chemical Plant Operator
+              episodeId:
+                type: array
+                default: [ 12,55,20 ]
+              quoteId:
+                type: array
+                default: [ 1,2,3 ]
+
+    Quotes:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              quote:
+                type: number
+                example: Jon Max Desc
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              total:
+                type: integer
+                example: 10
+              lastPage:
+                type: integer
+                example: 2
+              perPage:
+                type: integer
+                example: 10
+              currentPage:
+                type: integer
+                example: 1
+
+    QuotesShow:
+      type: object
+      properties:
+        id:
+          type: number
+          default: 12
+          description: ID contact
+        quote:
+          type: string
+          default: Jony Brad Desc
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
